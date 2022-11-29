@@ -1,3 +1,4 @@
+package com.user;
 
 import java.sql.*;
 import java.util.Scanner;
@@ -5,7 +6,7 @@ public class Registration {
         static final String D_URL = "jdbc:mysql://localhost:3306/cogjava";
         static final String USER = "root";
         static final String PASS = "pass@word1";
-        static final String QUERY = "insert into reg (name,email,password) values (?,?,?)";
+        static final String QUERY = "insert into register (name,email,password,status) values (?,?,?,?)";
 
         public static void main(String args []){
             try (Connection con = DriverManager.getConnection(D_URL, USER, PASS);
@@ -22,6 +23,7 @@ public class Registration {
                 ps.setString(1,name);
                 ps.setString(2,email);
                 ps.setString(3,password);
+                ps.setString(4, "INACTIVE");
                 ps.executeUpdate();
             }
             catch(SQLException e){

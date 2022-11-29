@@ -8,12 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-public class Login {
+public class LogOut {
 
 	static final String D_URL = "jdbc:mysql://localhost:3306/cogjava";
 	static final String USER = "root";
 	static final String PASS = "pass@word1";
-	static final String QUERY = "select * from register where email=? AND password=?";
+	static final String QUERY = "select * from register where email=?";
 	static final String UPDATEQUERY = "update  register SET status=? where email=?";
 
 	public static void main(String args[]) {
@@ -23,24 +23,21 @@ public class Login {
 			Scanner sc = new Scanner(System.in);
 			System.out.print("EMAIL: ");
 			String email = sc.nextLine();
-			System.out.print("PASSWORD: ");
-			String password = sc.nextLine();
 
 			ps.setString(1, email);
-			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				updateLoginStatus(email, "ACTICVE");
-				System.out.print("Login Success.");
+				updateLogOutStatus(email, "INACTIVE");
+				System.out.print("LogOut Success.");
 			} else {
-				System.out.print("Login Failled.");
+				System.out.print("LogOut Failled.");
 			}
 		} catch (SQLException e) {
 
 		}
 	}
 
-	private static void updateLoginStatus(String email, String status) {
+	private static void updateLogOutStatus(String email, String status) {
 		try (Connection con = DriverManager.getConnection(D_URL, USER, PASS);
 				Statement stmt = con.createStatement();
 				PreparedStatement psp = con.prepareStatement(UPDATEQUERY);) {
@@ -48,9 +45,9 @@ public class Login {
 			psp.setString(2, email);
 			psp.execute();
 		} catch (Exception e) {
-		
 			e.printStackTrace();
 		}
 
 	}
+
 }
